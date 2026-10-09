@@ -41,6 +41,13 @@ Każdy tekst ma wersję `pl` i `en`. Po zapisaniu pliku odśwież stronę (F5).
 **Projekty:** każdy ma animowaną makietę (`mock`). Zamiast niej możesz dać zrzut ekranu:
 wrzuć obrazek do folderu `img/` i wpisz ścieżkę w polu `image`, np. `"img/smartsaver.png"`.
 
+**Formularz kontaktowy:** wiadomości przychodzą na e-mail przez darmowy serwis
+[FormSubmit](https://formsubmit.co) (ustawienia w `CONTACT_FORM` w `data.js`).
+Po wrzuceniu strony do internetu wyślij z formularza jedną testową wiadomość.
+FormSubmit przyśle wtedy maila z przyciskiem *Activate Form*. Kliknij go raz, a od tej
+pory każda wiadomość z formularza trafi na Twoją skrzynkę (temat: „Nowa wiadomość z portfolio”).
+Gdyby nie przyszła, sprawdź folder Spam.
+
 **CV:** wrzuć `cv.pdf` do tego folderu i wpisz `cv: "cv.pdf"` w `PROFILE`.
 
 **Kolory:** zmienne na górze `css/style.css` (np. `--accent` to kolor akcentu).

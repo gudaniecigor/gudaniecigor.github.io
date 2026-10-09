@@ -13,6 +13,14 @@ const PROFILE = {
   timezone: "Europe/Warsaw",
 };
 
+// Formularz kontaktowy. Wiadomości trafiają na e-mail przez darmowy serwis FormSubmit (formsubmit.co).
+// WAŻNE: po pierwszej wiadomości wysłanej z formularza FormSubmit przyśle na ten adres e-mail
+// z linkiem aktywacyjnym. Trzeba go kliknąć raz, dopiero wtedy wiadomości zaczną przychodzić.
+const CONTACT_FORM = {
+  endpoint: "https://formsubmit.co/ajax/gudaniecigor@gmail.com",
+  subject: "Nowa wiadomość z portfolio",
+};
+
 // Napisy zmieniające się w nagłówku (efekt "rozszyfrowania").
 const ROLES = {
   pl: ["Front-End Developer", "Web Developer · Laravel", "UI/UX & Figma", "Inżynier · WSB Merito"],
@@ -280,6 +288,27 @@ const I18N = {
       time: "czas lokalny",
       status: "Otwarty na nowe propozycje",
     },
+    form: {
+      title: "Napisz do mnie",
+      topic: "W jakiej sprawie?",
+      topics: { job: "Oferta pracy", project: "Projekt / zlecenie", other: "Coś innego" },
+      name: "Imię i nazwisko",
+      email: "Twój e-mail",
+      message: "Wiadomość",
+      note: "Odpowiem na podany adres e-mail.",
+      send: "Wyślij wiadomość",
+      sending: "Wysyłanie…",
+      errors: {
+        name: "Podaj imię (min. 2 znaki).",
+        email: "Podaj poprawny adres e-mail.",
+        message: "Napisz kilka słów więcej (min. 10 znaków).",
+      },
+      failed: "Nie udało się wysłać wiadomości. Spróbuj ponownie albo napisz bezpośrednio na maila.",
+      activation: "Formularz czeka jeszcze na aktywację. Spróbuj później albo napisz bezpośrednio na maila.",
+      successTitle: "Wiadomość wysłana!",
+      successText: "Dzięki za kontakt. Odpowiem najszybciej, jak to możliwe.",
+      again: "Napisz kolejną",
+    },
     footer: { built: "Zaprojektowane i zakodowane od zera", top: "Do góry" },
     mock: {
       ferry: { url: "rezerwacje · pol-agent", date: "Data", pax: "Pasażerowie", paxVal: "2 + auto", cabin: "Kabina", cabinVal: "2-os.", client: "Klient", staff: "Pracownik", admin: "Admin", pay: "Zapłać online", paid: "Opłacono" },
@@ -350,6 +379,27 @@ const I18N = {
       location: "Gdańsk, Poland",
       time: "local time",
       status: "Open to new opportunities",
+    },
+    form: {
+      title: "Send me a message",
+      topic: "What is it about?",
+      topics: { job: "Job offer", project: "Project / freelance", other: "Something else" },
+      name: "Full name",
+      email: "Your email",
+      message: "Message",
+      note: "I'll reply to the email address you provide.",
+      send: "Send message",
+      sending: "Sending…",
+      errors: {
+        name: "Please enter your name (min. 2 characters).",
+        email: "Please enter a valid email address.",
+        message: "Please write a bit more (min. 10 characters).",
+      },
+      failed: "The message couldn't be sent. Please try again or email me directly.",
+      activation: "The form isn't active yet. Please try later or email me directly.",
+      successTitle: "Message sent!",
+      successText: "Thanks for reaching out. I'll get back to you as soon as I can.",
+      again: "Send another",
     },
     footer: { built: "Designed and coded from scratch", top: "Back to top" },
     mock: {

@@ -32,6 +32,7 @@
     cart: '<circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"/>',
     "map-pin": '<path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/>',
     clock: '<circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/>',
+    send: '<line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/>',
   };
 
   const icon = (name) =>
@@ -181,7 +182,7 @@
 
   function applyProfile() {
     $$("[data-profile]").forEach((el) => { el.textContent = PROFILE[el.dataset.profile] ?? ""; });
-    ["#contact-email", "#round-badge"].forEach((sel) => { $(sel).href = `mailto:${PROFILE.email}`; });
+    $("#contact-email").href = `mailto:${PROFILE.email}`;
     $("#year").textContent = new Date().getFullYear();
     if (PROFILE.cv) {
       const cv = $("#cv-btn");
@@ -240,6 +241,8 @@
     $('meta[name="description"]').setAttribute("content", dict("meta.description"));
     $("#badge-text").textContent = dict("contact.badge");
     fitBadge();
+    // widoczne błędy formularza też zmieniają język
+    $$(".field-error").forEach((el) => { if (el.dataset.errorKey) el.textContent = dict(el.dataset.errorKey); });
     $$("[data-lang]").forEach((btn) => btn.setAttribute("aria-pressed", String(btn.dataset.lang === lang)));
   }
 
@@ -502,6 +505,117 @@
     });
   }
 
+  // ---------- Formularz kontaktowy ----------
+
+  const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/;
+
+  function initContactForm() {
+    const form = $("#contact-form");
+    const success = $("#form-success");
+    const submit = $("#form-submit");
+    const status = $("#form-status");
+    const counter = $("#char-count");
+    const field = (name) => form.elements.namedItem(name);
+
+    const rules = {
+      name: (v) => v.trim().length >= 2,
+      email: (v) => EMAIL_RE.test(v.trim()),
+      message: (v) => v.trim().length >= 10,
+    };
+
+    const showError = (name, invalid) => {
+      const input = field(name);
+      const error = $(`#f-${name}-error`);
+      input.setAttribute("aria-invalid", String(invalid));
+      input.closest(".field").classList.toggle("is-invalid", invalid);
+      error.dataset.errorKey = invalid ? `form.errors.${name}` : "";
+      error.textContent = invalid ? dict(`form.errors.${name}`) : "";
+    };
+
+    const validate = () => {
+      let firstInvalid = null;
+      Object.keys(rules).forEach((name) => {
+        const ok = rules[name](field(name).value);
+        showError(name, !ok);
+        if (!ok && !firstInvalid) firstInvalid = field(name);
+      });
+      firstInvalid?.focus();
+      return !firstInvalid;
+    };
+
+    Object.keys(rules).forEach((name) => {
+      const input = field(name);
+      input.addEventListener("input", () => {
+        if (input.getAttribute("aria-invalid") === "true" && rules[name](input.value)) showError(name, false);
+      });
+      input.addEventListener("blur", () => { if (input.value) showError(name, !rules[name](input.value)); });
+    });
+
+    const message = field("message");
+    const updateCounter = () => { counter.textContent = `${message.value.length} / ${message.maxLength}`; };
+    message.addEventListener("input", updateCounter);
+    updateCounter();
+
+    const setSending = (on) => {
+      submit.disabled = on;
+      submit.classList.toggle("is-sending", on);
+      $(".form-submit-label", submit).textContent = dict(on ? "form.sending" : "form.send");
+    };
+
+    const showStatus = (key) => {
+      status.textContent = key ? dict(key) : "";
+      status.classList.toggle("is-error", !!key);
+    };
+
+    form.addEventListener("submit", async (e) => {
+      e.preventDefault();
+      showStatus("");
+      if (field("_honey").value) return; // wypełnione przez bota
+      if (!validate()) return;
+
+      const name = field("name").value.trim();
+      const topic = dict(`form.topics.${field("topic").value}`);
+      const payload = {
+        name,
+        email: field("email").value.trim(),
+        topic,
+        message: message.value.trim(),
+        _subject: `${CONTACT_FORM.subject} · ${topic} · ${name}`,
+        _template: "table",
+        _captcha: "false",
+      };
+
+      setSending(true);
+      try {
+        const res = await fetch(CONTACT_FORM.endpoint, {
+          method: "POST",
+          headers: { "Content-Type": "application/json", Accept: "application/json" },
+          body: JSON.stringify(payload),
+        });
+        const data = await res.json().catch(() => ({}));
+        if (res.ok && String(data.success) === "true") {
+          form.reset();
+          updateCounter();
+          form.hidden = true;
+          success.hidden = false;
+          $("#form-again").focus();
+        } else {
+          showStatus(/activat/i.test(data.message || "") ? "form.activation" : "form.failed");
+        }
+      } catch (_) {
+        showStatus("form.failed");
+      } finally {
+        setSending(false);
+      }
+    });
+
+    $("#form-again").addEventListener("click", () => {
+      success.hidden = true;
+      form.hidden = false;
+      field("name").focus();
+    });
+  }
+
   function initClock() {
     const el = $("#clock");
     const update = () => {
@@ -639,6 +753,7 @@
   initFilters();
   initLangSwitch();
   initCopyEmail();
+  initContactForm();
   initClock();
   Effects.init();
   window.ScrollFX.init();

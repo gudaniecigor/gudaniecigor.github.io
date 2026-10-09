@@ -179,7 +179,16 @@
     <section class="section contact" id="contact">
       <div class="container">
         <p class="section-label" data-reveal><span class="section-num">04</span><span data-i18n="contact.label"></span></p>
-        <h2 class="contact-title" data-i18n="contact.title" data-chars data-reveal="head"></h2>
+        <div class="contact-head">
+          <h2 class="contact-title" data-i18n="contact.title" data-chars data-reveal="head"></h2>
+          <a class="round-badge" id="round-badge" href="#contact-form" data-magnetic="0.25" data-reveal style="--d: 200ms" data-i18n-aria="form.title">
+            <svg viewBox="0 0 200 200" aria-hidden="true">
+              <defs><path id="badge-circle" d="M100,100 m-80,0 a80,80 0 1,1 160,0 a80,80 0 1,1 -160,0"/></defs>
+              <text><textPath href="#badge-circle" id="badge-text"></textPath></text>
+            </svg>
+            <span class="round-badge-icon"><i data-icon="arrow-down"></i></span>
+          </a>
+        </div>
 
         <div class="contact-grid">
           <div class="contact-main" data-reveal>
@@ -191,13 +200,59 @@
             </div>
           </div>
 
-          <a class="round-badge" id="round-badge" href="#" data-magnetic="0.25" data-reveal style="--d: 200ms" aria-label="E-mail">
-            <svg viewBox="0 0 200 200" aria-hidden="true">
-              <defs><path id="badge-circle" d="M100,100 m-80,0 a80,80 0 1,1 160,0 a80,80 0 1,1 -160,0"/></defs>
-              <text><textPath href="#badge-circle" id="badge-text"></textPath></text>
-            </svg>
-            <span class="round-badge-icon"><i data-icon="arrow-up-right"></i></span>
-          </a>
+          <!-- formularz: wiadomości idą na e-mail przez FormSubmit (ustawienia w js/data.js) -->
+          <div class="form-card" data-reveal style="--d: 150ms">
+            <form class="contact-form" id="contact-form" novalidate>
+              <h3 class="form-title" data-i18n="form.title"></h3>
+
+              <fieldset class="topic-group">
+                <legend data-i18n="form.topic"></legend>
+                <div class="topics">
+                  <label class="topic"><input type="radio" name="topic" value="job" checked><span data-i18n="form.topics.job"></span></label>
+                  <label class="topic"><input type="radio" name="topic" value="project"><span data-i18n="form.topics.project"></span></label>
+                  <label class="topic"><input type="radio" name="topic" value="other"><span data-i18n="form.topics.other"></span></label>
+                </div>
+              </fieldset>
+
+              <div class="field-row">
+                <div class="field">
+                  <input id="f-name" name="name" type="text" autocomplete="name" maxlength="100" placeholder=" " required aria-describedby="f-name-error">
+                  <label for="f-name" data-i18n="form.name"></label>
+                  <p class="field-error" id="f-name-error"></p>
+                </div>
+                <div class="field">
+                  <input id="f-email" name="email" type="email" autocomplete="email" maxlength="150" placeholder=" " required aria-describedby="f-email-error">
+                  <label for="f-email" data-i18n="form.email"></label>
+                  <p class="field-error" id="f-email-error"></p>
+                </div>
+              </div>
+
+              <div class="field">
+                <textarea id="f-message" name="message" rows="5" maxlength="3000" placeholder=" " required aria-describedby="f-message-error"></textarea>
+                <label for="f-message" data-i18n="form.message"></label>
+                <div class="field-meta">
+                  <p class="field-error" id="f-message-error"></p>
+                  <span class="char-count" id="char-count" aria-hidden="true"></span>
+                </div>
+              </div>
+
+              <!-- pułapka na boty: ludzie tego pola nie widzą -->
+              <input type="text" name="_honey" class="honey" tabindex="-1" autocomplete="off" aria-hidden="true">
+
+              <div class="form-footer">
+                <p class="form-note" data-i18n="form.note"></p>
+                <button type="submit" class="btn btn-primary form-submit" id="form-submit"><span class="form-submit-label" data-i18n="form.send"></span><i data-icon="send"></i><span class="spinner" aria-hidden="true"></span></button>
+              </div>
+              <p class="form-status" id="form-status" role="status" aria-live="polite"></p>
+            </form>
+
+            <div class="form-success" id="form-success" hidden>
+              <svg class="success-check" viewBox="0 0 52 52" aria-hidden="true"><circle cx="26" cy="26" r="24"/><path d="M15 27l7 7 15-15"/></svg>
+              <h3 data-i18n="form.successTitle"></h3>
+              <p data-i18n="form.successText"></p>
+              <button type="button" class="btn btn-ghost" id="form-again" data-i18n="form.again"></button>
+            </div>
+          </div>
         </div>
 
         <div class="contact-meta" data-reveal>
