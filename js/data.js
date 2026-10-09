@@ -7,7 +7,7 @@
 const PROFILE = {
   name: "Igor Gudaniec",
   email: "gudaniecigor@gmail.com",
-  github: "https://github.com/Igor71446",
+  github: "https://github.com/gudaniecigor",
   linkedin: "https://www.linkedin.com/in/igorgudaniec/",
   cv: "", // np. "cv.pdf": wrzuć plik do folderu Portfolio i wpisz jego nazwę (puste = brak przycisku)
   timezone: "Europe/Warsaw",

@@ -1,72 +1,74 @@
-# Portfolio: Igor Gudaniec
+# Igor Gudaniec · Portfolio
 
-Strona portfolio w czystym HTML, CSS i JavaScript, bez instalowania czegokolwiek.
-Efekty przewijania korzystają z biblioteki GSAP, wczytywanej z internetu (cdnjs).
-Bez internetu strona też działa, tylko bez tych efektów.
+**Strona na żywo: https://gudaniecigor.github.io**
 
-## Jak otworzyć
+Osobiste portfolio Front-End Developera z Gdańska: kim jestem, nad czym pracuję,
+moje doświadczenie, certyfikaty i formularz kontaktowy. Strona jest dwujęzyczna
+(polski / angielski) i działa na komputerze, tablecie i telefonie.
 
-Kliknij dwa razy `index.html`, a strona otworzy się w przeglądarce.
+> **Strona powstała z pomocą AI.** Projekt graficzny, kod i animacje zostały
+> wygenerowane we współpracy z asystentem AI **Claude Code** (Anthropic)
+> na podstawie moich wskazówek, CV i projektów.
 
-## Animacje
+## Co jest na stronie
 
-- Intro z licznikiem (raz na sesję przeglądarki).
-- Magnetyczne przyciski i przechylanie kart 3D (tylko z myszką).
-- Interaktywna sieć w tle nagłówka i terminal, który sam wpisuje komendy.
-- Paski z technologiami, które przyspieszają przy przewijaniu.
-- Zdanie w „O mnie” rozjaśnia się słowo po słowie podczas przewijania.
-- Karty projektów nasuwają się na siebie (na dużych ekranach) i mają animowane makiety.
-- Oś czasu „rysuje się” przy przewijaniu i ma filtr Praca / Edukacja.
+- **Start:** imię z animacją wejścia, zmieniające się role, terminal, który sam
+  wpisuje komendy, oraz interaktywna „sieć” w tle, nawiązująca do mojego
+  wykształcenia teleinformatycznego.
+- **O mnie:** krótki opis, liczniki i karty z technologiami, z których korzystam.
+- **Projekty:** system rezerwacji promowych tworzony dla Pol-Agent, SmartSaver
+  (projekt inżynierski), QuizWSB (aplikacja na Androida) oraz strony i sklepy
+  na WordPressie. Każdy projekt ma animowaną makietę aplikacji.
+- **Doświadczenie:** oś czasu pracy i edukacji z filtrem oraz certyfikaty
+  (Cisco CCNA, kwalifikacje zawodowe EE.10 / EE.11 / ELM.02, MongoDB).
+- **Kontakt:** formularz wysyłający wiadomość prosto na mój e-mail, link do maila
+  i LinkedIna oraz aktualna godzina w Gdańsku.
 
-Animacje są zawsze włączone, niezależnie od ustawień systemu odwiedzającego.
+## Funkcje
 
-## Jak edytować treść
+- Przełącznik języka PL / EN, zapamiętywany w przeglądarce.
+- Animacje sterowane przewijaniem: karty projektów nasuwające się na siebie,
+  oś czasu rysująca się podczas przewijania, tekst rozjaśniający się słowo po słowie,
+  paralaksa i przesuwające się paski z technologiami.
+- Intro z licznikiem, magnetyczne przyciski, przechylanie kart w 3D
+  i świecące ramki podążające za kursorem.
+- Formularz kontaktowy z walidacją pól, obsługą błędów i animowanym potwierdzeniem wysłania.
+- Responsywny układ oraz dbałość o dostępność: semantyczny HTML, etykiety ARIA,
+  obsługa klawiatury.
 
-Cała treść jest w jednym pliku: **`js/data.js`**.
+## Technologie
 
-| Co zmienić | Gdzie w `data.js` |
+| Obszar | Użyte narzędzia |
 |---|---|
-| imię, e-mail, GitHub, LinkedIn, CV | `PROFILE` |
-| napisy zmieniające się w nagłówku | `ROLES` |
-| paski z technologiami | `MARQUEE` |
-| fakty i liczniki w „O mnie” | `FACTS`, `STATS` |
-| technologie (karty) | `SKILLS` |
-| projekty | `PROJECTS` |
-| praca i edukacja | `EXPERIENCE` |
-| certyfikaty i kursy | `CERTS` |
-| teksty menu, nagłówków, przycisków, terminala | `I18N` |
+| Struktura i wygląd | HTML5, CSS3 (zmienne CSS, Grid, Flexbox, animacje i przejścia) |
+| Logika | JavaScript bez frameworków |
+| Animacje przewijania | [GSAP](https://gsap.com) + ScrollTrigger |
+| Sieć w tle | Canvas API |
+| Formularz | [FormSubmit](https://formsubmit.co) |
+| Czcionki | Space Grotesk, Inter, JetBrains Mono (Google Fonts) |
+| Hosting | GitHub Pages |
 
-Każdy tekst ma wersję `pl` i `en`. Po zapisaniu pliku odśwież stronę (F5).
-
-**Projekty:** każdy ma animowaną makietę (`mock`). Zamiast niej możesz dać zrzut ekranu:
-wrzuć obrazek do folderu `img/` i wpisz ścieżkę w polu `image`, np. `"img/smartsaver.png"`.
-
-**Formularz kontaktowy:** wiadomości przychodzą na e-mail przez darmowy serwis
-[FormSubmit](https://formsubmit.co) (ustawienia w `CONTACT_FORM` w `data.js`).
-Po wrzuceniu strony do internetu wyślij z formularza jedną testową wiadomość.
-FormSubmit przyśle wtedy maila z przyciskiem *Activate Form*. Kliknij go raz, a od tej
-pory każda wiadomość z formularza trafi na Twoją skrzynkę (temat: „Nowa wiadomość z portfolio”).
-Gdyby nie przyszła, sprawdź folder Spam.
-
-**CV:** wrzuć `cv.pdf` do tego folderu i wpisz `cv: "cv.pdf"` w `PROFILE`.
-
-**Kolory:** zmienne na górze `css/style.css` (np. `--accent` to kolor akcentu).
-
-## Struktura
+## Struktura projektu
 
 ```
 index.html         układ strony
 css/style.css      wygląd i animacje CSS
-js/data.js         treść (edytujesz tutaj)
-js/main.js         renderowanie treści, języki, menu, intro
-js/effects.js      sieć w tle, terminal, przechylanie, paski, liczniki
-js/scroll-fx.js    efekty przewijania (GSAP)
-img/               zrzuty ekranu projektów
+js/data.js         cała treść strony w dwóch językach
+js/main.js         renderowanie treści, języki, nawigacja, formularz
+js/effects.js      sieć w tle, terminal, efekty interaktywne
+js/scroll-fx.js    animacje sterowane przewijaniem
 ```
 
-## Publikacja w internecie (za darmo)
+## English
 
-- **GitHub Pages:** wrzuć folder do repozytorium na GitHubie, potem
-  Settings → Pages → Deploy from branch → `main`. Strona będzie pod adresem
-  `https://twoj-login.github.io/nazwa-repo/`.
-- **Netlify:** przeciągnij cały folder na stronę app.netlify.com/drop.
+Personal portfolio of Igor Gudaniec, a Front-End Developer based in Gdańsk, Poland.
+Bilingual (PL/EN), responsive, built with plain HTML, CSS and JavaScript plus GSAP
+scroll animations, and hosted on GitHub Pages. The site was designed and coded with
+the help of the AI assistant Claude Code (Anthropic).
+
+## Kontakt
+
+**Igor Gudaniec** · Gdańsk
+[LinkedIn](https://www.linkedin.com/in/igorgudaniec/) ·
+[gudaniecigor@gmail.com](mailto:gudaniecigor@gmail.com) ·
+[formularz na stronie](https://gudaniecigor.github.io/#contact)
