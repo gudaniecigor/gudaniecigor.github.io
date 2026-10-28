@@ -1,0 +1,6 @@
+# Wszystkie pliki tekstowe z końcami linii LF (bez ostrzeżeń LF/CRLF przy commitach)
+* text=auto eol=lf
+
+# pliki binarne: bez żadnej konwersji
+*.png binary
+*.woff2 binary

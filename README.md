@@ -34,7 +34,10 @@ moje doświadczenie, certyfikaty i formularz kontaktowy. Strona jest dwujęzyczn
   i świecące ramki podążające za kursorem.
 - Formularz kontaktowy z walidacją pól, obsługą błędów i animowanym potwierdzeniem wysłania.
 - Responsywny układ oraz dbałość o dostępność: semantyczny HTML, etykiety ARIA,
-  obsługa klawiatury.
+  obsługa klawiatury, kontrast tekstu zgodny z WCAG AA.
+- Grafika podglądu linku (LinkedIn, Messenger), dane strukturalne dla wyszukiwarek
+  i własna strona 404.
+- Czcionki serwowane lokalnie, bez Google Fonts. Skrypty z CDN zabezpieczone sumą SRI.
 
 ## Technologie
 
@@ -45,18 +48,22 @@ moje doświadczenie, certyfikaty i formularz kontaktowy. Strona jest dwujęzyczn
 | Animacje przewijania | [GSAP](https://gsap.com) + ScrollTrigger |
 | Sieć w tle | Canvas API |
 | Formularz | [FormSubmit](https://formsubmit.co) |
-| Czcionki | Space Grotesk, Inter, JetBrains Mono (Google Fonts) |
+| Czcionki | Space Grotesk, Inter, JetBrains Mono (lokalnie, licencja OFL) |
 | Hosting | GitHub Pages |
 
 ## Struktura projektu
 
 ```
-index.html         układ strony
+index.html         układ strony i metadane
+404.html           strona błędu
 css/style.css      wygląd i animacje CSS
+css/fonts.css      deklaracje czcionek
 js/data.js         cała treść strony w dwóch językach
 js/main.js         renderowanie treści, języki, nawigacja, formularz
 js/effects.js      sieć w tle, terminal, efekty interaktywne
 js/scroll-fx.js    animacje sterowane przewijaniem
+fonts/             pliki czcionek i ich licencje
+og-image.png       grafika podglądu linku
 ```
 
 ## English

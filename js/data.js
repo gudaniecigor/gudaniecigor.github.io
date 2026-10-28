@@ -43,9 +43,9 @@ const FACTS = [
 
 // Liczniki w sekcji "O mnie".
 const STATS = [
-  { value: 8, label: { pl: "lat w IT, od technikum po studia", en: "years in IT, from tech school to university" } },
+  { value: 4, label: { pl: "lata studiów inżynierskich na kierunku Front-End", en: "years of engineering studies in Front-End" } },
   { value: 2, label: { pl: "firmy, w których tworzyłem strony i aplikacje", en: "companies where I built websites and apps" } },
-  { value: 4, label: { pl: "projekty w portfolio, od WordPressa po Laravela", en: "portfolio projects, from WordPress to Laravel" } },
+  { value: 3, label: { pl: "panele w systemie rezerwacji, który rozwijam: klient, pracownik, admin", en: "panels in the booking system I'm building: client, staff, admin" } },
   { value: 10, label: { pl: "kursów i certyfikatów, m.in. Cisco CCNA", en: "courses & certificates, incl. Cisco CCNA" } },
 ];
 
@@ -83,13 +83,18 @@ const SKILLS = [
 //   hue:    odcień koloru tła karty (0–360)
 //   github / live: linki (puste = brak)
 //   note:   dopisek, gdy nie ma linków (np. projekt komercyjny)
+//   role:   "Moja rola", czyli co dokładnie robiłeś w projekcie (puste = linijka ukryta)
 const PROJECTS = [
   {
     category: { pl: "Projekt komercyjny · 2026", en: "Commercial project · 2026" },
     title: { pl: "System rezerwacji promowych", en: "Ferry booking system" },
     description: {
-      pl: "Aplikacja webowa dla Pol-Agent Sp. z o.o., budowana od zera, która automatyzuje proces rezerwacji promowych. Rozwijam ją samodzielnie: od analizy wymagań z klientem po wdrożenie.",
-      en: "A web application for Pol-Agent Sp. z o.o., built from scratch to automate ferry bookings. I develop it on my own, from gathering requirements with the client to deployment.",
+      pl: "Aplikacja webowa dla Pol-Agent Sp. z o.o., budowana od zera, która automatyzuje proces rezerwacji promowych.",
+      en: "A web application for Pol-Agent Sp. z o.o., built from scratch to automate ferry bookings.",
+    },
+    role: {
+      pl: "Samodzielnie rozwijam całą aplikację: od analizy wymagań z klientem, przez backend i frontend, po wdrożenie.",
+      en: "I develop the whole application on my own: from gathering requirements with the client, through backend and frontend, to deployment.",
     },
     highlights: {
       pl: ["Trzy poziomy dostępu: panel klienta, pracownika i administratora", "Integracja zewnętrznych API i płatności online", "Praca w sprintach, stały kontakt z klientem"],
@@ -109,6 +114,7 @@ const PROJECTS = [
       pl: "Aplikacja do zarządzania finansami osobistymi: wydatki, przychody, cele oszczędnościowe i analizy z wykresami. Zaprojektowana i wdrożona zespołowo jako praca dyplomowa.",
       en: "A personal finance app: expenses, income, savings goals and analytics with charts. Designed and shipped as a team for our engineering thesis.",
     },
+    role: { pl: "", en: "" }, // UZUPEŁNIJ: za co odpowiadałeś w zespole, np. "Frontend dashboardu i wykresy w React"
     highlights: {
       pl: ["Dashboard z wykresami i analizą wydatków", "Transakcje cykliczne, powiadomienia, tryb jasny i ciemny", "Logowanie JWT + Argon2, testy Playwright i Vitest"],
       en: ["Dashboard with charts and spending analytics", "Recurring transactions, notifications, light & dark mode", "JWT + Argon2 auth, Playwright and Vitest tests"],
@@ -126,6 +132,7 @@ const PROJECTS = [
       pl: "Aplikacja quizowa na Androida dla studentów WSB Merito: pytania jednokrotnego wyboru w kategoriach, z własnym API i bazą danych.",
       en: "An Android quiz app for WSB Merito students: single-choice questions in categories, backed by its own API and database.",
     },
+    role: { pl: "", en: "" }, // UZUPEŁNIJ: za co odpowiadałeś w zespole
     highlights: {
       pl: ["Architektura: Android ↔ REST API (Node.js) ↔ PostgreSQL", "Tryb awaryjny: lokalne dane JSON, gdy API nie odpowiada", "Projekt interfejsu w Figmie, planowanie w Miro"],
       en: ["Architecture: Android ↔ REST API (Node.js) ↔ PostgreSQL", "Fallback mode: local JSON data when the API is down", "UI designed in Figma, planned in Miro"],
@@ -143,9 +150,13 @@ const PROJECTS = [
       pl: "Samodzielne tworzenie stron i sklepów internetowych dla klientów Atwi na podstawie ich wytycznych: od struktury witryny po wprowadzanie produktów.",
       en: "Building websites and online stores for Atwi's clients based on their briefs, from site structure to adding products.",
     },
+    role: {
+      pl: "Praktykant Front-End: samodzielnie budowałem strony według wytycznych klientów, a później koordynowałem pracę młodszych stażystów.",
+      en: "Front-End intern: I built client websites on my own and later coordinated the work of junior interns.",
+    },
     highlights: {
-      pl: ["Kompleksowa budowa witryn i sklepów", "Dobór i konfiguracja wtyczek, wdrażanie wielojęzyczności", "Koordynowanie pracy młodszych stażystów"],
-      en: ["End-to-end websites and online stores", "Plugin selection and setup, multilingual sites", "Coordinating the work of junior interns"],
+      pl: ["Kompleksowa budowa witryn i sklepów", "Dobór i konfiguracja wtyczek, wdrażanie wielojęzyczności", "Wprowadzanie produktów i treści do sklepów"],
+      en: ["End-to-end websites and online stores", "Plugin selection and setup, multilingual sites", "Adding products and content to online stores"],
     },
     tags: ["WordPress", "CMS", "HTML", "CSS", "UX"],
     mock: "shop",
@@ -267,10 +278,12 @@ const I18N = {
       code: "Kod na GitHubie",
       live: "Demo",
       view: "Zobacz kod",
+      role: "Moja rola",
     },
     experience: {
       label: "doświadczenie",
       title: "Doświadczenie i edukacja",
+      filter: "Filtruj oś czasu",
       all: "Wszystko",
       work: "Praca",
       edu: "Edukacja",
@@ -295,7 +308,7 @@ const I18N = {
       name: "Imię i nazwisko",
       email: "Twój e-mail",
       message: "Wiadomość",
-      note: "Odpowiem na podany adres e-mail.",
+      note: "Wiadomość trafi do mnie przez serwis FormSubmit. Odpowiem na podany adres e-mail.",
       send: "Wyślij wiadomość",
       sending: "Wysyłanie…",
       errors: {
@@ -309,7 +322,7 @@ const I18N = {
       successText: "Dzięki za kontakt. Odpowiem najszybciej, jak to możliwe.",
       again: "Napisz kolejną",
     },
-    footer: { built: "Zaprojektowane i zakodowane od zera", top: "Do góry" },
+    footer: { built: "Zaprojektowane i zbudowane z pomocą AI", top: "Do góry" },
     mock: {
       ferry: { url: "rezerwacje · pol-agent", date: "Data", pax: "Pasażerowie", paxVal: "2 + auto", cabin: "Kabina", cabinVal: "2-os.", client: "Klient", staff: "Pracownik", admin: "Admin", pay: "Zapłać online", paid: "Opłacono" },
       finance: { balance: "Saldo", goal: "Cel: wakacje", spending: "Wydatki · 7 dni", food: "Jedzenie", transport: "Transport", fun: "Rozrywka" },
@@ -359,10 +372,12 @@ const I18N = {
       code: "Code on GitHub",
       live: "Live demo",
       view: "View code",
+      role: "My role",
     },
     experience: {
       label: "experience",
       title: "Experience & education",
+      filter: "Filter the timeline",
       all: "All",
       work: "Work",
       edu: "Education",
@@ -387,7 +402,7 @@ const I18N = {
       name: "Full name",
       email: "Your email",
       message: "Message",
-      note: "I'll reply to the email address you provide.",
+      note: "Your message reaches me via the FormSubmit service. I'll reply to the email address you provide.",
       send: "Send message",
       sending: "Sending…",
       errors: {
@@ -401,7 +416,7 @@ const I18N = {
       successText: "Thanks for reaching out. I'll get back to you as soon as I can.",
       again: "Send another",
     },
-    footer: { built: "Designed and coded from scratch", top: "Back to top" },
+    footer: { built: "Designed and built with the help of AI", top: "Back to top" },
     mock: {
       ferry: { url: "bookings · pol-agent", date: "Date", pax: "Passengers", paxVal: "2 + car", cabin: "Cabin", cabinVal: "2-berth", client: "Client", staff: "Staff", admin: "Admin", pay: "Pay online", paid: "Paid" },
       finance: { balance: "Balance", goal: "Goal: holiday", spending: "Spending · 7 days", food: "Food", transport: "Transport", fun: "Fun" },

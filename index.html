@@ -5,14 +5,51 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Igor Gudaniec | Front-End Developer</title>
   <meta name="description" content="Igor Gudaniec, Front-End Developer i inżynier z Gdańska. Projekty, doświadczenie i kontakt.">
+  <meta name="author" content="Igor Gudaniec">
   <meta name="theme-color" content="#08090d">
+  <link rel="canonical" href="https://gudaniecigor.github.io/">
+
+  <!-- podgląd linku (LinkedIn, Messenger, Slack, X) -->
+  <meta property="og:type" content="profile">
+  <meta property="og:site_name" content="Igor Gudaniec">
+  <meta property="og:url" content="https://gudaniecigor.github.io/">
   <meta property="og:title" content="Igor Gudaniec | Front-End Developer">
-  <meta property="og:description" content="Portfolio: projekty, doświadczenie i kontakt.">
-  <meta property="og:type" content="website">
-  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='16' fill='%2308090d'/%3E%3Ctext x='50%25' y='56%25' dominant-baseline='middle' text-anchor='middle' font-family='Arial,sans-serif' font-size='28' font-weight='700' fill='%235eead4'%3EIG%3C/text%3E%3C/svg%3E">
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500;600&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <meta property="og:description" content="Front-End Developer i inżynier z Gdańska. Projekty, doświadczenie i kontakt.">
+  <meta property="og:image" content="https://gudaniecigor.github.io/og-image.png">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta property="og:image:alt" content="Igor Gudaniec, Front-End Developer, Gdańsk">
+  <meta property="og:locale" content="pl_PL">
+  <meta property="og:locale:alternate" content="en_GB">
+  <meta property="profile:first_name" content="Igor">
+  <meta property="profile:last_name" content="Gudaniec">
+  <meta name="twitter:card" content="summary_large_image">
+
+  <link rel="icon" href="favicon.svg" type="image/svg+xml">
+  <link rel="apple-touch-icon" href="apple-touch-icon.png">
+
+  <!-- dane dla wyszukiwarek: kim jest autor strony -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "Person",
+    "name": "Igor Gudaniec",
+    "jobTitle": "Front-End Developer",
+    "url": "https://gudaniecigor.github.io/",
+    "image": "https://gudaniecigor.github.io/og-image.png",
+    "email": "mailto:gudaniecigor@gmail.com",
+    "address": { "@type": "PostalAddress", "addressLocality": "Gdańsk", "addressCountry": "PL" },
+    "alumniOf": { "@type": "CollegeOrUniversity", "name": "Uniwersytet WSB Merito w Gdańsku" },
+    "worksFor": { "@type": "Organization", "name": "Pol-Agent Sp. z o.o." },
+    "knowsAbout": ["Front-End Development", "JavaScript", "TypeScript", "React", "Laravel", "PHP", "Tailwind CSS", "UI/UX", "Figma"],
+    "sameAs": ["https://www.linkedin.com/in/igorgudaniec/", "https://github.com/gudaniecigor"]
+  }
+  </script>
+
+  <link rel="preload" href="fonts/space-grotesk-latin.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="preload" href="fonts/inter-latin.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="preconnect" href="https://cdnjs.cloudflare.com" crossorigin>
+  <link rel="stylesheet" href="css/fonts.css">
   <link rel="stylesheet" href="css/style.css">
   <script>
     document.documentElement.classList.add("js");
@@ -60,6 +97,22 @@
   </header>
 
   <main id="main">
+    <!-- widoczne tylko, gdy przeglądarka ma wyłączony JavaScript (treść strony wstawia skrypt) -->
+    <noscript>
+      <section class="noscript">
+        <h1>Igor Gudaniec</h1>
+        <p class="noscript-role">Front-End Developer · inż. · Gdańsk</p>
+        <p>Tworzę aplikacje webowe, które dobrze wyglądają i naprawdę działają: od makiety w Figmie po wdrożenie.
+          Obecnie rozwijam system rezerwacji promowych dla Pol-Agent Sp. z o.o. (Laravel, Tailwind CSS, Alpine.js).</p>
+        <p>Pełna wersja tej strony wymaga włączonego JavaScriptu. Kontakt:</p>
+        <ul>
+          <li><a href="mailto:gudaniecigor@gmail.com">gudaniecigor@gmail.com</a></li>
+          <li><a href="https://www.linkedin.com/in/igorgudaniec/">LinkedIn</a></li>
+          <li><a href="https://github.com/gudaniecigor">GitHub</a></li>
+        </ul>
+      </section>
+    </noscript>
+
     <!-- ===== Start ===== -->
     <section class="hero" id="hero">
       <canvas class="hero-canvas" id="network" aria-hidden="true"></canvas>
@@ -153,7 +206,7 @@
           <h2 class="section-title" data-i18n="experience.title" data-split></h2>
         </div>
 
-        <div class="tl-filters" id="tl-filters" role="group" data-reveal>
+        <div class="tl-filters" id="tl-filters" role="group" data-i18n-aria="experience.filter" data-reveal>
           <span class="tl-pill" aria-hidden="true"></span>
           <button type="button" data-filter="all" aria-pressed="true" data-i18n="experience.all"></button>
           <button type="button" data-filter="work" aria-pressed="false" data-i18n="experience.work"></button>
@@ -273,11 +326,13 @@
     <div class="footer-giant" aria-hidden="true" data-profile="name"></div>
   </footer>
 
-  <script src="js/data.js"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
-  <script src="js/effects.js"></script>
-  <script src="js/scroll-fx.js"></script>
-  <script src="js/main.js"></script>
+  <!-- defer: skrypty nie blokują wyświetlania, a i tak wykonują się po kolei.
+       integrity: przeglądarka odrzuci plik z CDN, jeśli ktoś by go podmienił. -->
+  <script defer src="js/data.js"></script>
+  <script defer src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js" integrity="sha384-g4NTh/Iv5PPU4xPyhEWqPcwtNXOvdaDI8LLnyYfyNZOjKJeYQyjzQ9X5275eBjpt" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+  <script defer src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js" integrity="sha384-Z3REaz79l2IaAZqJsSABtTbhjgOUYyV3p90XNnAPCSHg3EMTz1fouunq9WZRtj3d" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+  <script defer src="js/effects.js"></script>
+  <script defer src="js/scroll-fx.js"></script>
+  <script defer src="js/main.js"></script>
 </body>
 </html>

@@ -192,30 +192,36 @@ window.Effects = (() => {
     const state = tracks.map((el, i) => ({ el, x: 0, dir: i % 2 ? 1 : -1 }));
     let lastY = window.scrollY;
     let velocity = 0;
-    let visible = true;
-
-    new IntersectionObserver(([entry]) => { visible = entry.isIntersecting; })
-      .observe(tracks[0].closest(".marquee"));
+    let raf = 0;
 
     const loop = () => {
       const y = window.scrollY;
       velocity += (y - lastY - velocity) * 0.12;
       lastY = y;
-      if (visible) {
-        const boost = clamp(velocity * 0.18, -7, 7);
-        const skew = clamp(-velocity * 0.12, -6, 6);
-        state.forEach((s) => {
-          const half = s.el.scrollWidth / 2;
-          if (!half) return;
-          s.x += s.dir * (0.7 + boost);
-          if (s.x <= -half) s.x += half;
-          if (s.x > 0) s.x -= half;
-          s.el.style.transform = `translate3d(${s.x.toFixed(2)}px, 0, 0) skewX(${skew.toFixed(2)}deg)`;
-        });
-      }
-      requestAnimationFrame(loop);
+      const boost = clamp(velocity * 0.18, -7, 7);
+      const skew = clamp(-velocity * 0.12, -6, 6);
+      state.forEach((s) => {
+        const half = s.el.scrollWidth / 2;
+        if (!half) return;
+        s.x += s.dir * (0.7 + boost);
+        if (s.x <= -half) s.x += half;
+        if (s.x > 0) s.x -= half;
+        s.el.style.transform = `translate3d(${s.x.toFixed(2)}px, 0, 0) skewX(${skew.toFixed(2)}deg)`;
+      });
+      raf = requestAnimationFrame(loop);
     };
-    loop();
+
+    // pętla działa tylko wtedy, gdy paski są na ekranie
+    new IntersectionObserver(([entry]) => {
+      if (entry.isIntersecting && !raf) {
+        lastY = window.scrollY;
+        velocity = 0;
+        raf = requestAnimationFrame(loop);
+      } else if (!entry.isIntersecting) {
+        cancelAnimationFrame(raf);
+        raf = 0;
+      }
+    }).observe(tracks[0].closest(".marquee"));
   }
 
   // ---------- Sieć w tle nagłówka (węzły, połączenia i "pakiety") ----------
@@ -227,7 +233,8 @@ window.Effects = (() => {
     const MOUSE = 170;
     let w = 0, h = 0, nodes = [], packets = [];
     let mouse = { x: -9999, y: -9999 };
-    let visible = true;
+    let builtForWidth = 0;
+    let raf = 0;
 
     const resize = () => {
       const r = canvas.getBoundingClientRect();
@@ -237,6 +244,11 @@ window.Effects = (() => {
       canvas.width = Math.round(w * dpr);
       canvas.height = Math.round(h * dpr);
       ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+
+      // Nowe węzły tylko przy zmianie szerokości. Na telefonie chowanie paska adresu
+      // zmienia samą wysokość okna i nie powinno losować sieci od nowa.
+      if (w === builtForWidth) return;
+      builtForWidth = w;
       const count = clamp(Math.round((w * h) / 15000), 24, 95);
       nodes = Array.from({ length: count }, () => ({
         x: Math.random() * w,
@@ -254,8 +266,6 @@ window.Effects = (() => {
       for (const n of nodes) {
         n.x += n.vx;
         n.y += n.vy;
-        if (n.x < 0 || n.x > w) n.vx *= -1;
-        if (n.y < 0 || n.y > h) n.vy *= -1;
         const dx = n.x - mouse.x, dy = n.y - mouse.y;
         const d = Math.hypot(dx, dy);
         if (d < MOUSE && d > 0) {
@@ -263,6 +273,10 @@ window.Effects = (() => {
           n.x += (dx / d) * f;
           n.y += (dy / d) * f;
         }
+        // Odbicie od krawędzi. Pozycja jest przycinana, a kierunek ustawiany do środka:
+        // samo odwracanie prędkości zostawiało kropki odepchnięte myszką poza obszarem.
+        if (n.x < 0) { n.x = 0; n.vx = Math.abs(n.vx); } else if (n.x > w) { n.x = w; n.vx = -Math.abs(n.vx); }
+        if (n.y < 0) { n.y = 0; n.vy = Math.abs(n.vy); } else if (n.y > h) { n.y = h; n.vy = -Math.abs(n.vy); }
       }
 
       ctx.lineWidth = 1;
@@ -292,7 +306,8 @@ window.Effects = (() => {
       // pakiety danych biegnące po połączeniach
       if (packets.length < 7 && Math.random() < 0.06) {
         const a = nodes[Math.floor(Math.random() * nodes.length)];
-        const b = nodes.find((n) => n !== a && Math.hypot(a.x - n.x, a.y - n.y) < LINK);
+        const neighbours = nodes.filter((n) => n !== a && Math.hypot(a.x - n.x, a.y - n.y) < LINK);
+        const b = neighbours[Math.floor(Math.random() * neighbours.length)];
         if (b) packets.push({ a, b, t: 0 });
       }
       packets = packets.filter((p) => p.t < 1 && Math.hypot(p.a.x - p.b.x, p.a.y - p.b.y) < LINK + 20);
@@ -318,8 +333,8 @@ window.Effects = (() => {
     };
 
     const loop = () => {
-      if (visible && !document.hidden) draw();
-      requestAnimationFrame(loop);
+      draw();
+      raf = requestAnimationFrame(loop);
     };
 
     resize();
@@ -335,8 +350,12 @@ window.Effects = (() => {
       mouse = { x: e.clientX - r.left, y: e.clientY - r.top };
     }, { passive: true });
     host.addEventListener("pointerleave", () => { mouse = { x: -9999, y: -9999 }; });
-    new IntersectionObserver(([entry]) => { visible = entry.isIntersecting; }).observe(canvas);
-    loop();
+
+    // rysowanie tylko wtedy, gdy nagłówek jest na ekranie
+    new IntersectionObserver(([entry]) => {
+      if (entry.isIntersecting && !raf) raf = requestAnimationFrame(loop);
+      else if (!entry.isIntersecting) { cancelAnimationFrame(raf); raf = 0; }
+    }).observe(canvas);
   }
 
   // ---------- Liczniki ----------

@@ -43,12 +43,14 @@
 
   let lang = initialLang();
 
+  // Domyślnie polski (wiele osób w Polsce ma przeglądarkę po angielsku),
+  // chyba że ktoś wcześniej sam wybrał EN przełącznikiem.
   function initialLang() {
     try {
       const saved = localStorage.getItem(STORAGE_KEY);
       if (saved && I18N[saved]) return saved;
     } catch (_) { /* brak dostępu do localStorage */ }
-    return /^pl\b/i.test(navigator.language || "") ? "pl" : "en";
+    return "pl";
   }
 
   // Tekst w aktualnym języku: przyjmuje napis, tablicę albo { pl, en }.
@@ -297,6 +299,7 @@
         p.live && `<a class="project-link" href="${esc(p.live)}" target="_blank" rel="noopener">${icon("external")}<span>${esc(dict("projects.live"))}</span>${icon("arrow-up-right")}</a>`,
       ].filter(Boolean).join("");
       const note = !links && p.note ? `<span class="project-note">${icon("lock")}${esc(tr(p.note))}</span>` : "";
+      const role = tr(p.role);
 
       const href = p.live || p.github;
       const tag = href ? "a" : "div";
@@ -310,6 +313,7 @@
             <div class="project-meta"><span class="project-num">${num}</span><span>${esc(tr(p.category))}</span></div>
             <h3 class="project-title">${esc(title)}</h3>
             <p class="project-desc">${esc(tr(p.description))}</p>
+            ${role ? `<p class="project-role"><b>${esc(dict("projects.role"))}</b>${esc(role)}</p>` : ""}
             <ul class="project-highlights">${tr(p.highlights || []).map((h) => `<li>${esc(h)}</li>`).join("")}</ul>
             <ul class="tags">${(p.tags || []).map((t) => `<li class="tag">${esc(t)}</li>`).join("")}</ul>
             <div class="project-links">${links}${note}</div>
@@ -443,14 +447,25 @@
 
   function initMenu() {
     const btn = $("#menu-btn");
+    const isOpen = () => document.body.classList.contains("menu-open");
     const setOpen = (open) => {
       document.body.classList.toggle("menu-open", open);
       btn.setAttribute("aria-expanded", String(open));
+      // Dopóki menu jest otwarte, reszta strony jest nieaktywna:
+      // Tab nie ucieka pod spód, a strona pod menu się nie przewija.
+      $("#main").inert = open;
+      $(".footer").inert = open;
+      document.documentElement.style.overflow = open ? "hidden" : "";
+      if (open) $(".nav-links a").focus();
     };
-    btn.addEventListener("click", () => setOpen(!document.body.classList.contains("menu-open")));
-    $$(".nav-links a").forEach((a) => a.addEventListener("click", () => setOpen(false)));
-    document.addEventListener("keydown", (e) => { if (e.key === "Escape") setOpen(false); });
-    window.matchMedia("(min-width: 861px)").addEventListener("change", (e) => { if (e.matches) setOpen(false); });
+    btn.addEventListener("click", () => setOpen(!isOpen()));
+    $$(".nav-links a").forEach((a) => a.addEventListener("click", () => { if (isOpen()) setOpen(false); }));
+    document.addEventListener("keydown", (e) => {
+      if (e.key !== "Escape" || !isOpen()) return;
+      setOpen(false);
+      btn.focus();
+    });
+    window.matchMedia("(min-width: 861px)").addEventListener("change", (e) => { if (e.matches && isOpen()) setOpen(false); });
   }
 
   let movePill = () => {};
@@ -618,13 +633,15 @@
 
   function initClock() {
     const el = $("#clock");
+    const formats = {};
     const update = () => {
-      el.textContent = new Intl.DateTimeFormat(lang === "pl" ? "pl-PL" : "en-GB", {
+      formats[lang] ??= new Intl.DateTimeFormat(lang === "pl" ? "pl-PL" : "en-GB", {
         timeZone: PROFILE.timezone || "Europe/Warsaw",
         hour: "2-digit",
         minute: "2-digit",
         second: "2-digit",
-      }).format(new Date());
+      });
+      el.textContent = formats[lang].format(new Date());
     };
     update();
     setInterval(update, 1000);
@@ -684,7 +701,7 @@
     return new Promise((resolve) => {
       const bar = $("#preloader-bar");
       const count = $("#preloader-count");
-      const duration = 1500;
+      const duration = 900;
       const t0 = performance.now();
 
       const tick = (now) => {
@@ -696,8 +713,8 @@
 
         pre.classList.add("is-done");
         document.body.style.overflow = "";
-        setTimeout(() => { root.classList.add("is-loaded"); resolve(); }, 380);
-        setTimeout(() => pre.remove(), 1500);
+        setTimeout(() => { root.classList.add("is-loaded"); resolve(); }, 250);
+        setTimeout(() => pre.remove(), 1200);
       };
       requestAnimationFrame(tick);
     });
@@ -757,6 +774,9 @@
   initClock();
   Effects.init();
   window.ScrollFX.init();
+  // Plakietka jest ukryta na wąskich ekranach (wtedy nie da się zmierzyć napisu),
+  // więc dopasowujemy ją ponownie, gdy zmieni rozmiar, np. po obróceniu tabletu.
+  new ResizeObserver(fitBadge).observe($("#round-badge"));
   document.fonts?.ready.then(fitBadge);
 
   runPreloader().then(startHero);
