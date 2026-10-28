@@ -45,7 +45,6 @@ const FACTS = [
 const STATS = [
   { value: 4, label: { pl: "lata studiów inżynierskich na kierunku Front-End", en: "years of engineering studies in Front-End" } },
   { value: 2, label: { pl: "firmy, w których tworzyłem strony i aplikacje", en: "companies where I built websites and apps" } },
-  { value: 3, label: { pl: "panele w systemie rezerwacji, który rozwijam: klient, pracownik, admin", en: "panels in the booking system I'm building: client, staff, admin" } },
   { value: 10, label: { pl: "kursów i certyfikatów, m.in. Cisco CCNA", en: "courses & certificates, incl. Cisco CCNA" } },
 ];
 
@@ -114,7 +113,10 @@ const PROJECTS = [
       pl: "Aplikacja do zarządzania finansami osobistymi: wydatki, przychody, cele oszczędnościowe i analizy z wykresami. Zaprojektowana i wdrożona zespołowo jako praca dyplomowa.",
       en: "A personal finance app: expenses, income, savings goals and analytics with charts. Designed and shipped as a team for our engineering thesis.",
     },
-    role: { pl: "", en: "" }, // UZUPEŁNIJ: za co odpowiadałeś w zespole, np. "Frontend dashboardu i wykresy w React"
+    role: {
+      pl: "Praca w 4-osobowym zespole: brałem udział w projektowaniu, programowaniu i testowaniu aplikacji.",
+      en: "Teamwork in a group of four: I took part in designing, coding and testing the app.",
+    },
     highlights: {
       pl: ["Dashboard z wykresami i analizą wydatków", "Transakcje cykliczne, powiadomienia, tryb jasny i ciemny", "Logowanie JWT + Argon2, testy Playwright i Vitest"],
       en: ["Dashboard with charts and spending analytics", "Recurring transactions, notifications, light & dark mode", "JWT + Argon2 auth, Playwright and Vitest tests"],
@@ -132,7 +134,10 @@ const PROJECTS = [
       pl: "Aplikacja quizowa na Androida dla studentów WSB Merito: pytania jednokrotnego wyboru w kategoriach, z własnym API i bazą danych.",
       en: "An Android quiz app for WSB Merito students: single-choice questions in categories, backed by its own API and database.",
     },
-    role: { pl: "", en: "" }, // UZUPEŁNIJ: za co odpowiadałeś w zespole
+    role: {
+      pl: "Praca w zespole: brałem udział w projektowaniu, programowaniu i testowaniu aplikacji.",
+      en: "Teamwork: I took part in designing, coding and testing the app.",
+    },
     highlights: {
       pl: ["Architektura: Android ↔ REST API (Node.js) ↔ PostgreSQL", "Tryb awaryjny: lokalne dane JSON, gdy API nie odpowiada", "Projekt interfejsu w Figmie, planowanie w Miro"],
       en: ["Architecture: Android ↔ REST API (Node.js) ↔ PostgreSQL", "Fallback mode: local JSON data when the API is down", "UI designed in Figma, planned in Miro"],
